@@ -38,7 +38,7 @@ export async function signUpAction(formData) {
       countryFlag,
     });
 
-    redirect("/login");
+    redirect("/signup-successful");
   } catch (err) {
     throw err;
   }

@@ -24,11 +24,9 @@ export default function RootLayout({ children }) {
         antialiased relative`}
       >
         <Header />
-        <div className="grid flex-1">
-          <main>
-            <ReservationProvider>{children}</ReservationProvider>
-          </main>
-        </div>
+        <main className="grid flex-1">
+          <ReservationProvider>{children}</ReservationProvider>
+        </main>
       </body>
     </html>
   );

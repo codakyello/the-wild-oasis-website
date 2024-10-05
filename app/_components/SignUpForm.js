@@ -72,7 +72,7 @@ function SignUpForm({ children }) {
           />
         </div>
         <Link
-          href={"/sign-up"}
+          href={"/login"}
           className="flex text-accent-500 justify-end text-[1.4rem]"
         >
           Have an account? Login
