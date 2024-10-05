@@ -8,7 +8,6 @@ export default function SignupSuccessful() {
   const router = useRouter();
 
   useEffect(() => {
-    // Redirect to login page after 3 seconds
     const timer = setTimeout(() => {
       router.push("/login");
     }, 3000);
@@ -17,7 +16,7 @@ export default function SignupSuccessful() {
   }, [router]);
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="mt-8 flex flex-col items-center">
       <h1 className="text-[3.6rem] font-bold">Sign up Successful!</h1>
       <p className="mt-4 text-[1.8rem]">
         You will be redirected to the login page shortly...

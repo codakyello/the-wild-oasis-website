@@ -62,7 +62,7 @@ export async function getGuest(email) {
 }
 export async function createGuest(user) {
   console.log(user);
-  const res = await fetch(`${DEV_URL}/guests/signup`, {
+  const res = await fetch(`${URL}/guests/signup`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json", // Set the content type to JSON

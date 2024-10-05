@@ -4,8 +4,9 @@ import { useState } from "react";
 import SpinnerMini from "./SpinnerMini";
 import { signUpAction } from "../_lib/actions";
 import SubmitButton from "./SubmitButton";
+import SelectCountry from "./SelectCountry";
 
-function SignUpForm({ children }) {
+function SignUpForm() {
   return (
     <div className=" bg-primary-900 py-8 px-12">
       <form
@@ -59,7 +60,11 @@ function SignUpForm({ children }) {
             <label htmlFor="nationality">*Where are you from?</label>
           </div>
 
-          {children}
+          <SelectCountry
+            name="nationality"
+            id="nationality"
+            className="px-5 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm"
+          />
         </div>
 
         <div className="space-y-2">
