@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import AppLogo from "@/public/about1.jpg";
+import AppLogo from "@/public/logo.png";
 
 function Logo() {
   return (
