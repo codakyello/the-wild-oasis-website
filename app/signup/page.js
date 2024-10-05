@@ -8,7 +8,7 @@ export const metadata = {
 };
 export default function Page() {
   return (
-    <div className="max-w-[50rem] mx-auto mt-[4rem] items-center">
+    <div className="max-w-[50rem] px-[2rem] mx-auto mt-[4rem] items-center">
       <h2 className="text-[3rem] font-semibold mb-[2rem]">Get Started Now!</h2>
       <SignUpForm>
         <SelectCountry
