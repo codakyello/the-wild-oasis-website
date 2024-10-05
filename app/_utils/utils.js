@@ -1,3 +1,5 @@
+import { auth } from "../_lib/auth";
+
 export const buildQueryString = (params) => {
   console.log("This are the params", params);
   const query = new URLSearchParams();
@@ -9,3 +11,10 @@ export const buildQueryString = (params) => {
   }
   return query.toString(); // Convert to query string
 };
+
+export async function getToken() {
+  const session = await auth();
+  if (!session) throw new Error("You must be logged in!");
+
+  return session.token;
+}

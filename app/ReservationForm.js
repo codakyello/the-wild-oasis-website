@@ -1,25 +1,31 @@
-function ReservationForm() {
+import { createBookingAction } from "./_lib/actions";
+
+function ReservationForm({ cabin, user }) {
   // CHANGE
-  const maxCapacity = 23;
+
+  const { maxCapacity } = cabin;
 
   return (
     <div className="">
       <div className="bg-primary-800 text-primary-300 px-16 py-2 flex justify-between items-center ">
-        <p>Logged in as</p>
+        <p>Logged in as {user?.fullName}</p>
 
-        {/* <div className='flex gap-4 items-center'>
+        <div className="flex gap-4 items-center">
           <img
             // Important to display google profile images
-            referrerPolicy='no-referrer'
-            className='h-8 rounded-full'
-            src={user.image}
-            alt={user.name}
+            referrerPolicy="no-referrer"
+            className="h-[3.2rem] rounded-full"
+            src={user?.image}
+            alt={user?.name}
           />
-          <p>{user.name}</p>
-        </div> */}
+          <p>{user?.name}</p>
+        </div>
       </div>
 
-      <form className="py-10 px-16 text-[1.8rem] flex gap-5 flex-col ">
+      <form
+        action={createBookingAction}
+        className="py-10 px-16 text-[1.8rem] flex gap-5 flex-col "
+      >
         <div className="space-y-2">
           <label className="mb-4 inline-block" htmlFor="numGuests">
             How many guests?
@@ -33,9 +39,9 @@ function ReservationForm() {
             <option value="" key="">
               Select number of guests...
             </option>
-            {Array.from({ length: maxCapacity }, (_, i) => i + 1).map((x) => (
-              <option value={x} key={x}>
-                {x} {x === 1 ? "guest" : "guests"}
+            {Array.from({ length: maxCapacity }, (_, i) => i + 1).map((num) => (
+              <option value={num} key={num}>
+                {num} {num === 1 ? "guest" : "guests"}
               </option>
             ))}
           </select>

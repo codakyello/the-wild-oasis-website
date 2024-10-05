@@ -1,7 +1,5 @@
 "use client";
 
-import Link from "next/link";
-
 export default function Error({ error, reset }) {
   return (
     <main className="flex justify-center items-center flex-col gap-6">
@@ -12,7 +10,7 @@ export default function Error({ error, reset }) {
         onClick={reset}
         className="inline-block bg-accent-500 text-primary-800 px-6 py-3 text-[1.8rem]"
       >
-        <Link href={"/"}>Home</Link>
+        Try again!
       </button>
     </main>
   );

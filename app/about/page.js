@@ -12,8 +12,8 @@ export default async function Page() {
   const cabins = await getCabins();
 
   return (
-    <div className="max-w-[130rem] px-[3.2rem] py-[4.8rem] mx-auto grid grid-cols-5 gap-x-24 gap-y-32 text-[1.8rem] items-center">
-      <div className="col-span-3">
+    <div className="max-w-[130rem] px-[3.2rem] py-[4.8rem] mx-auto grid grid-cols-1 md:grid-cols-5 gap-x-24 gap-y-32 text-[1.8rem] items-center">
+      <div className="md:col-span-3">
         <h1 className="text-[3.6rem] mb-10 text-accent-400 font-medium">
           Welcome to The Elegant Escape
         </h1>
@@ -40,18 +40,18 @@ export default async function Page() {
         </div>
       </div>
 
-      <div className="col-span-2">
+      <div className="md:col-span-2">
         <Image
           src={About1}
           alt="Family sitting around a fire pit in front of cabin"
         />
       </div>
 
-      <div className="col-span-2">
+      <div className="md:col-span-2">
         <Image src={About2} alt="Family that manages The Elegant Escape" />
       </div>
 
-      <div className="col-span-3">
+      <div className="md:col-span-3">
         <h1 className="text-[3.6rem] mb-[4rem] text-accent-400 font-medium">
           Managed by our family since 1962
         </h1>

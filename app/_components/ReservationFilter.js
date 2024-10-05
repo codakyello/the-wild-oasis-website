@@ -2,57 +2,50 @@
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-function Filter() {
+function ReservationFilter() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
 
-  const activeFilter = searchParams.get("capacity") || "all";
+  const activeFilter = searchParams.get("status") || "ongoing";
 
   function handleFiter(filter) {
     const params = new URLSearchParams(searchParams);
-    params.set("capacity", filter);
+    params.set("status", filter);
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   }
 
   return (
     <div className="border border-primary-800 flex">
       <FilterButton
-        filter="all"
+        filter="ongoing"
         handleFilter={handleFiter}
         activeFilter={activeFilter}
       >
-        All cabins
+        Ongoing
       </FilterButton>
 
       <FilterButton
-        filter="small"
+        filter="upcoming"
         handleFilter={handleFiter}
         activeFilter={activeFilter}
       >
-        1&mdash;3 guests
+        Upcoming
       </FilterButton>
 
       <FilterButton
-        filter="medium"
+        filter="past"
         handleFilter={handleFiter}
         activeFilter={activeFilter}
       >
-        4&mdash;7 guests
-      </FilterButton>
-
-      <FilterButton
-        filter="large"
-        handleFilter={handleFiter}
-        activeFilter={activeFilter}
-      >
-        7&mdash;12 guests
+        Past
       </FilterButton>
     </div>
   );
 }
 
 const FilterButton = ({ children, handleFilter, filter, activeFilter }) => {
+  console.log("active filter", activeFilter, filter);
   return (
     <button
       onClick={() => handleFilter(filter)}
@@ -64,4 +57,4 @@ const FilterButton = ({ children, handleFilter, filter, activeFilter }) => {
     </button>
   );
 };
-export default Filter;
+export default ReservationFilter;
