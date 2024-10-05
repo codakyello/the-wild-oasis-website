@@ -1,7 +1,6 @@
 import { Suspense } from "react";
 import CabinList from "../_components/CabinList";
 import Loading from "./loading";
-import Filter from "../_components/CabinFilter";
 import ReservationReminder from "../_components/ReservationReminder";
 import CabinFilter from "../_components/CabinFilter";
 
