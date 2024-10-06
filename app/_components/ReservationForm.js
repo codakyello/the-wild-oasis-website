@@ -34,7 +34,7 @@ function ReservationForm({ cabin, user, settings }) {
         <p>Logged in as {user?.fullName}</p>
 
         <div className="flex gap-4 items-center">
-          <div className="h-[3.2rem] relative aspect-square rounded-full">
+          <div className="h-[3.2rem] overflow-hidden relative aspect-square rounded-full">
             <Image
               fill
               // Important to display google profile images
