@@ -40,7 +40,7 @@ function UpdateProfileForm({
 
         <SelectCountry
           className="px-[2rem] py-[1.2rem] bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm"
-          defaultCountry={guest.nationality}
+          defaultCountry={nationality}
         />
       </div>
 
