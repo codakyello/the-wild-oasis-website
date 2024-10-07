@@ -4,7 +4,9 @@ export default function Error({ error, reset }) {
   return (
     <main className="flex justify-center items-center flex-col gap-6">
       <h1 className="text-[3rem] font-semibold">Something went wrong!</h1>
-      <p className="text-[1.8rem]">{error.message}</p>
+      <p className="text-[1.8rem]">
+        Please try again later or refresh the page.
+      </p>
 
       <button
         onClick={reset}
