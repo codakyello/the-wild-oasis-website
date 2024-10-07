@@ -1,31 +1,25 @@
 "use client";
 import SignInButton from "./SignInButton";
-import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { loginAction } from "../_lib/actions";
+import { toast } from "sonner";
 
 function LoginForm() {
   const router = useRouter();
-  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false); // Loading state
 
   const handleLogin = async (email, password) => {
-    setLoading(true); // Start loading
-    const result = await signIn("credentials", {
-      redirect: false,
-      email,
-      password,
-    });
+    setLoading(true);
+    const res = await loginAction(email, password);
 
-    if (result.error) {
-      console.log(result.error);
-      setError("Invalid email or password");
-      setLoading(false); // Stop loading if there's an error
-    } else {
-      setError(null);
+    if (res?.status !== "error") {
       router.push("/account");
+    } else {
+      toast.error("Fetch failed" || res.message);
     }
+    setLoading(false);
   };
 
   return (
@@ -60,7 +54,7 @@ function LoginForm() {
           />
         </div>
 
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        {/* {error && <p style={{ color: "red" }}>{error}</p>} */}
 
         <div className="flex mt-5 justify-end items-center gap-6">
           <button
@@ -79,9 +73,9 @@ function LoginForm() {
         Dont have an account? Signup
       </Link>
       <div className="flex gap-4 items-center mt-[2rem] mb-[2.5rem]">
-        <div className="h-[1px] flex-1 bg-gray-300"></div>
+        <div className="h-[1px] flex-1 bg-[#dddddd3e]"></div>
         <span className="text-[1.4rem]">OR</span>
-        <div className="flex-1 h-[1px] bg-accent-50"></div>
+        <div className="flex-1 h-[1px] bg-[#dddddd3e]"></div>
       </div>
       <SignInButton />
     </div>

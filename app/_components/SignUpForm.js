@@ -1,16 +1,35 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
 import SpinnerMini from "./SpinnerMini";
 import { signUpAction } from "../_lib/actions";
 import SubmitButton from "./SubmitButton";
 import SelectCountry from "./SelectCountry";
+import { toast } from "sonner";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 function SignUpForm() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (event) => {
+    setLoading(true);
+    event.preventDefault();
+    console.log("handle submit");
+    const formData = new FormData(event.target);
+
+    const res = await signUpAction(formData);
+
+    if (res?.status !== "error") {
+      router.push("/signup-successful");
+    } else toast.error(res.message);
+
+    setLoading(false);
+  };
   return (
     <div className=" bg-primary-900 py-8 px-12">
       <form
-        action={signUpAction}
+        onSubmit={handleSubmit}
         className="mb-5  text-[1.8rem] flex gap-[2.4rem] flex-col "
       >
         <div className="space-y-2">
@@ -82,8 +101,13 @@ function SignUpForm() {
         >
           Have an account? Login
         </Link>
+
         <div className="flex">
-          <SubmitButton label={"SignUp"} pendingLabel={<SpinnerMini />} />
+          <SubmitButton
+            loading={loading}
+            label={"SignUp"}
+            pendingLabel={<SpinnerMini />}
+          />
         </div>
       </form>
     </div>

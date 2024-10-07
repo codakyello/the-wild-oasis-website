@@ -10,7 +10,6 @@ import {
   getBookings,
   createGuest,
 } from "./data-service";
-import { redirect } from "next/navigation";
 
 export async function signInAction() {
   // sign in
@@ -18,17 +17,20 @@ export async function signInAction() {
 }
 
 export async function signUpAction(formData) {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  const nationalIDInput = Number(formData.get("nationalID"));
-
-  const nationalID = nationalIDInput ? Number(nationalIDInput) : undefined;
-  const [nationality, countryFlag] = formData.get("nationality").split("%");
-  const fullName = formData.get("fullName");
-  const password = formData.get("password");
-  const confirmPassword = formData.get("confirmPassword");
-  const email = formData.get("email");
   try {
-    await createGuest({
+    const nationalIDInput = Number(formData.get("nationalID"));
+
+    const nationalID = nationalIDInput ? Number(nationalIDInput) : undefined;
+    const [nationality, countryFlag] = formData.get("nationality")?.split("%");
+    const fullName = formData.get("fullName");
+    const password = formData.get("password");
+    const confirmPassword = formData.get("confirmPassword");
+    const email = formData.get("email");
+
+    if (nationality === "undefined")
+      throw new Error("You did not specify your nationality");
+
+    const data = await createGuest({
       fullName,
       email,
       password,
@@ -37,19 +39,25 @@ export async function signUpAction(formData) {
       nationality,
       countryFlag,
     });
-
-    redirect("/signup-successful");
+    console.log(data);
+    return { status: "success" };
   } catch (err) {
-    throw err;
+    console.log(err);
+    return { status: "error", message: err.message };
   }
 }
 
-export async function loginAction(formData) {
-  await signIn("credentials", {
-    redirect: false,
-    email: formData.email,
-    password: formData.password,
-  });
+export async function loginAction(email, password) {
+  try {
+    await signIn("credentials", {
+      redirect: false,
+      email,
+      password,
+    });
+  } catch (err) {
+    console.log("in error", err);
+    return { status: "error", message: err.message };
+  }
 }
 
 export async function signOutAction() {
@@ -57,35 +65,45 @@ export async function signOutAction() {
 }
 
 export async function updateProfile(formData) {
-  const nationalIDInput = Number(formData.get("nationalID"));
+  try {
+    const nationalIDInput = Number(formData.get("nationalID"));
 
-  const nationalID = nationalIDInput ? Number(nationalIDInput) : undefined;
-  const [nationality, countryFlag] = formData.get("nationality").split("%");
+    const nationalID = nationalIDInput ? Number(nationalIDInput) : undefined;
+    const [nationality, countryFlag] = formData.get("nationality").split("%");
 
-  await updateGuest({
-    countryFlag,
-    nationality,
-    nationalID,
-  });
-  revalidatePath("/account/profile");
+    if (!nationality) throw new Error("You did not specify your nationality");
+
+    const data = await updateGuest({
+      countryFlag,
+      nationality,
+      nationalID,
+    });
+    revalidatePath("/account/profile");
+    return { status: "success", data };
+  } catch (err) {
+    return { status: "error", message: err.message };
+  }
 }
 
 export async function updateBookingAction(formData) {
-  const numGuests = formData.get("numGuests");
-  const observations = formData.get("observations").slice(0, 1000);
-  const bookingId = formData.get("bookingId");
+  try {
+    const numGuests = formData.get("numGuests");
+    const observations = formData.get("observations").slice(0, 1000);
+    const bookingId = formData.get("bookingId");
 
-  const guestBookings = await getBookings();
+    const guestBookings = await getBookings();
 
-  const guestBookingsIds = guestBookings.map((booking) => booking._id);
+    const guestBookingsIds = guestBookings.map((booking) => booking._id);
 
-  if (!guestBookingsIds.includes(bookingId))
-    throw new Error("You are not allowed to update this booking");
+    if (!guestBookingsIds.includes(bookingId))
+      throw new Error("You are not allowed to update this booking");
 
-  await updateBooking({ numGuests, observations }, bookingId);
+    await updateBooking({ numGuests, observations }, bookingId);
 
-  revalidatePath("/account/reservations");
-  return redirect("/account/reservations");
+    revalidatePath("/account/reservations");
+  } catch (err) {
+    return { status: "error", message: err.message };
+  }
 }
 
 export async function createBookingAction(formData) {
@@ -100,26 +118,26 @@ export async function createBookingAction(formData) {
 
   if (!numNights) throw new Error("You did not specify the Number of nights");
 
-  console.log("hasBreakfast", hasBreakfast);
-
-  await createBooking({
-    numGuests,
-    observations,
-    cabinId,
-    startDate,
-    endDate,
-    totalPrice,
-    numNights,
-    hasBreakfast,
-  });
-  revalidatePath("/account/reservations");
-  revalidatePath(`/cabins/${cabinId}`);
-  return redirect("/thank-you");
+  try {
+    await createBooking({
+      numGuests,
+      observations,
+      cabinId,
+      startDate,
+      endDate,
+      totalPrice,
+      numNights,
+      hasBreakfast,
+    });
+    revalidatePath("/account/reservations");
+    revalidatePath(`/cabins/${cabinId}`);
+  } catch (err) {
+    return { status: "error", message: err.message };
+  }
 }
 
 export async function deleteBookingAction(bookingId) {
   try {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
     const guestBookings = await getBookings();
 
     const guestBookingsIds = guestBookings.map((booking) => booking._id);
@@ -129,7 +147,5 @@ export async function deleteBookingAction(bookingId) {
 
     await deleteBooking(bookingId);
     revalidatePath("/account/reservations");
-  } catch (err) {
-    throw err;
-  }
+  } catch (err) {}
 }

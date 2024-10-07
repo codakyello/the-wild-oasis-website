@@ -10,12 +10,14 @@ function SelectCountry({ defaultCountry, className }) {
 
   useEffect(() => {
     const fetchCountries = async () => {
-      const fetchedCountries = await getCountries();
-      setCountries(fetchedCountries);
-      const foundFlag =
-        fetchedCountries.find((country) => country.name === defaultCountry)
-          ?.flag ?? "";
-      setFlag(foundFlag);
+      try {
+        const fetchedCountries = await getCountries();
+        setCountries(fetchedCountries);
+        const foundFlag =
+          fetchedCountries.find((country) => country.name === defaultCountry)
+            ?.flag ?? "";
+        setFlag(foundFlag);
+      } catch (err) {}
     };
 
     fetchCountries();
@@ -33,6 +35,7 @@ function SelectCountry({ defaultCountry, className }) {
         className="hidden"
         name="nationality"
         value={`${selectedCountry}%${flag}`}
+        required
       />
       <button
         type="button"

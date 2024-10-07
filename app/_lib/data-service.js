@@ -30,17 +30,21 @@ export async function login(email, password) {
   return { user, token };
 }
 export async function authorize(token) {
-  if (!token) return false;
+  try {
+    if (!token) return false;
 
-  const res = await fetch(`${URL}/verifyToken`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      authorization: `Bearer ${token}`,
-    },
-  });
-  if (res.ok) return true;
-  return false;
+    const res = await fetch(`${URL}/verifyToken`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
+    });
+    if (!res.ok) throw new Error("");
+    return true;
+  } catch (err) {
+    return false;
+  }
 }
 
 export async function getGuest(email) {
@@ -83,28 +87,24 @@ export async function createGuest(user) {
 export async function updateGuest(formData) {
   const token = await getToken();
 
-  try {
-    const res = await fetch(`${URL}/guests/updateMe`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(formData),
-    });
+  const res = await fetch(`${URL}/guests/updateMe`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(formData),
+  });
 
-    const data = await res.json();
+  const data = await res.json();
 
-    console.log(data);
+  console.log(data);
 
-    if (!res.ok) throw Error(data.message);
-    const {
-      data: { guest },
-    } = data;
-    return guest;
-  } catch (err) {
-    throw new Error(err.message);
-  }
+  if (!res.ok) throw Error(data.message);
+  const {
+    data: { guest },
+  } = data;
+  return guest;
 }
 
 export async function signIn(email) {
@@ -357,27 +357,24 @@ export async function getCountries() {
 
 export async function createBooking(formData) {
   const token = await getToken();
-  try {
-    const res = await fetch(`${URL}/bookings`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(formData),
-    });
 
-    const data = await res.json();
+  const res = await fetch(`${URL}/bookings`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(formData),
+  });
 
-    if (!res.ok) throw Error(data.message);
+  const data = await res.json();
 
-    const {
-      data: { bookings },
-    } = data;
-    return bookings;
-  } catch (err) {
-    throw new Error(err.message);
-  }
+  if (!res.ok) throw Error(data.message);
+
+  const {
+    data: { bookings },
+  } = data;
+  return bookings;
 }
 
 // export async function createGuest(newGuest) {

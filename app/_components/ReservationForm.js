@@ -4,8 +4,13 @@ import { useReservation } from "./ReservationContext";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import SubmitButton from "./SubmitButton";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 function ReservationForm({ cabin, user, settings }) {
+  const router = useRouter();
+
+  const [loading, setLoading] = useState();
   const [hasBreakfast, setHasBreakfast] = useState(false);
   const [numGuests, setNumGuests] = useState();
 
@@ -26,8 +31,30 @@ function ReservationForm({ cabin, user, settings }) {
       console.log(regularPrice, discount, totalNights);
       setTotalPrice((regularPrice - discount) * totalNights);
     }
-  }, [range, totalNights, numGuests, regularPrice, hasBreakfast]);
+  }, [
+    range,
+    breakFastPrice,
+    totalNights,
+    numGuests,
+    regularPrice,
+    hasBreakfast,
+    discount,
+    setTotalPrice,
+  ]);
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    const formData = new FormData(event.target);
+    const res = await createBookingAction(formData);
+
+    if (res?.status !== "error") {
+      router.push("/thank-you");
+      resetRange();
+    } else toast.error(res.message);
+
+    setLoading(false);
+  };
   return (
     <div>
       <div className="bg-primary-800 text-primary-300 px-16 py-2 flex justify-between items-center ">
@@ -50,10 +77,11 @@ function ReservationForm({ cabin, user, settings }) {
       </div>
 
       <form
-        action={async (formData) => {
-          await createBookingAction(formData);
-          resetRange();
-        }}
+        // action={async (formData) => {
+        //   await createBookingAction(formData);
+        //   resetRange();
+        // }}
+        onSubmit={handleSubmit}
         className="py-10 px-16 text-[1.8rem] flex gap-5 flex-col "
       >
         <div className="space-y-2">
@@ -118,7 +146,11 @@ function ReservationForm({ cabin, user, settings }) {
               Start by selecting dates
             </p>
           ) : (
-            <SubmitButton label="Reserve now" pendingLabel={"Reserving"} />
+            <SubmitButton
+              loading={loading}
+              label="Reserve now"
+              pendingLabel={"Reserving"}
+            />
           )}
         </div>
 

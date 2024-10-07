@@ -1,13 +1,29 @@
+"use client";
+import { useState } from "react";
 import { updateProfile } from "../_lib/actions";
 import SelectCountry from "./SelectCountry";
 import SubmitButton from "./SubmitButton";
+import { toast } from "sonner";
 
 function UpdateProfileForm({
   guest: { fullName, email, nationality, nationalID, countryFlag },
 }) {
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    const formData = new FormData(event.target);
+    const res = await updateProfile(formData);
+
+    if (res?.status !== "error") toast.success("Profile updated successfully");
+    else toast.error(res.message);
+
+    setLoading(false);
+  };
   return (
     <form
-      action={updateProfile}
+      onSubmit={handleSubmit}
       className="bg-primary-900 py-8 px-12 text-[1.8rem] flex gap-[2.4rem] flex-col"
     >
       <div className="space-y-2">
@@ -55,7 +71,11 @@ function UpdateProfileForm({
       </div>
 
       <div className="flex justify-end items-center gap-[2.4rem]">
-        <SubmitButton label="Update Profile" pendingLabel="Updating Profile" />
+        <SubmitButton
+          loading={loading}
+          label="Update Profile"
+          pendingLabel="Updating Profile"
+        />
       </div>
     </form>
   );

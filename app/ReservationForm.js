@@ -1,9 +1,24 @@
+"use client";
+import { useState } from "react";
 import { createBookingAction } from "./_lib/actions";
 
 function ReservationForm({ cabin, user }) {
+  const [loading, setLoading] = useState(false);
   // CHANGE
 
   const { maxCapacity } = cabin;
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    const formData = new FormData(event.target);
+    const res = await createBookingAction(formData);
+
+    if (res?.status !== "error") toast.success("Profile updated successfully");
+    else toast.error(res.message);
+
+    setLoading(false);
+  };
 
   return (
     <div className="">
@@ -23,7 +38,8 @@ function ReservationForm({ cabin, user }) {
       </div>
 
       <form
-        action={createBookingAction}
+        onSubmit={handleSubmit}
+        // action={createBookingAction}
         className="py-10 px-16 text-[1.8rem] flex gap-5 flex-col "
       >
         <div className="space-y-2">

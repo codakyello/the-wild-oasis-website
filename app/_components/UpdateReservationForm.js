@@ -1,5 +1,9 @@
+"use client";
+import { toast } from "sonner";
 import { updateBookingAction } from "../_lib/actions";
 import SubmitButton from "./SubmitButton";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 function UpdateReservationForm({
   maxCapacity,
@@ -7,10 +11,27 @@ function UpdateReservationForm({
   observations,
   bookingId,
 }) {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    const formData = new FormData(event.target);
+    const res = await updateBookingAction(formData);
+
+    if (res?.status !== "error") {
+      router.push("/account/reservations");
+    } else toast.error(res.message);
+
+    setLoading(false);
+  };
+
   return (
     <div className="max-w-[130rem] mx-auto px-[3.2rem]">
       <form
-        action={updateBookingAction}
+        onSubmit={handleSubmit}
+        // action={updateBookingAction}
         className="bg-primary-900 py-8 px-[4.8rem] text-[1.8rem] flex gap-6 flex-col"
       >
         <div className="space-y-2">
@@ -44,7 +65,11 @@ function UpdateReservationForm({
           />
         </div>
 
-        <SubmitButton label="Update reservation" pendingLabel="Updating..." />
+        <SubmitButton
+          loading={loading}
+          label="Update reservation"
+          pendingLabel="Updating..."
+        />
 
         <input name="bookingId" defaultValue={bookingId} hidden />
       </form>

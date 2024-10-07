@@ -12,7 +12,6 @@ export async function generateMetadata({ params }) {
 export default async function Page({ params }) {
   const cabin = await getCabin(params.cabinId);
 
-  // In React apps we return a generic Error Component
   if (!cabin) return null;
 
   return (

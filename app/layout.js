@@ -2,6 +2,7 @@ import "@/app/_styles/globals.css";
 import { Josefin_Sans } from "next/font/google";
 import Header from "./_components/Header";
 import { ReservationProvider } from "./_components/ReservationContext";
+import { Toaster } from "sonner";
 
 const josefin = Josefin_Sans({
   subsets: ["latin"],
@@ -26,6 +27,16 @@ export default function RootLayout({ children }) {
         <Header />
         <main className="grid flex-1">
           <ReservationProvider>{children}</ReservationProvider>
+          <Toaster
+            theme={"dark"}
+            richColors
+            position="top-center"
+            offset="8px"
+            closeButton={true}
+            toastOptions={{
+              duration: 3500,
+            }}
+          />
         </main>
       </body>
     </html>
