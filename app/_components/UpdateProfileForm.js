@@ -1,10 +1,9 @@
 import { updateProfile } from "../_lib/actions";
+import SelectCountry from "./SelectCountry";
 import SubmitButton from "./SubmitButton";
 
 function UpdateProfileForm({
-  guest: { fullName, email, nationalID, countryFlag },
-
-  children,
+  guest: { fullName, email, nationality, nationalID, countryFlag },
 }) {
   return (
     <form
@@ -16,7 +15,7 @@ function UpdateProfileForm({
         <input
           defaultValue={fullName}
           disabled
-          className="px-5 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm disabled:cursor-not-allowed disabled:bg-gray-600 disabled:text-gray-400"
+          className="px-[2rem] py-[1.2rem] bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm disabled:cursor-not-allowed disabled:bg-gray-600 disabled:text-gray-400"
         />
       </div>
 
@@ -25,7 +24,7 @@ function UpdateProfileForm({
         <input
           defaultValue={email}
           disabled
-          className="px-5 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm disabled:cursor-not-allowed disabled:bg-gray-600 disabled:text-gray-400"
+          className="px-[2rem] py-[1.2rem] bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm disabled:cursor-not-allowed disabled:bg-gray-600 disabled:text-gray-400"
         />
       </div>
 
@@ -39,7 +38,10 @@ function UpdateProfileForm({
           />
         </div>
 
-        {children}
+        <SelectCountry
+          className="px-[2rem] py-[1.2rem] bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm"
+          defaultCountry={guest.nationality}
+        />
       </div>
 
       <div className="space-y-2">
@@ -48,7 +50,7 @@ function UpdateProfileForm({
           defaultValue={nationalID}
           name="nationalID"
           type="number"
-          className="px-5 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm"
+          className="px-[2rem] py-[1.2rem] bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm"
         />
       </div>
 
