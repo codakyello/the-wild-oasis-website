@@ -24,12 +24,12 @@ function ReservationCard({ booking, onDelete }) {
 
   return (
     <div className="flex border min-h-[14rem] border-primary-800">
-      <div className="relative self-stretch w-[14rem]">
+      <div className="relative self-stretch w-[18rem]">
         <Image
           fill
           src={image}
           alt={`Cabin ${name}`}
-          className="object-cover  bg-bottom border-r border-primary-800"
+          className="object-cover bg-bottom border-r border-primary-800"
         />
       </div>
 
