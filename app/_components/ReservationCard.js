@@ -23,13 +23,13 @@ function ReservationCard({ booking, onDelete }) {
   } = booking;
 
   return (
-    <div className="flex border relative border-primary-800">
-      <div className="flex relative h-[12.8rem] aspect-square">
+    <div className="flex border min-h-[14rem] border-primary-800">
+      <div className="relative self-stretch w-[14rem]">
         <Image
           fill
           src={image}
           alt={`Cabin ${name}`}
-          className="object-cover border-r border-primary-800"
+          className="object-cover  bg-bottom border-r border-primary-800"
         />
       </div>
 
@@ -61,7 +61,7 @@ function ReservationCard({ booking, onDelete }) {
           ) &mdash; {format(new Date(endDate), "EEE, MMM dd yyyy")}
         </p>
 
-        <div className="flex flex-col gap-2 md:gap-[2rem] mt-auto items-baseline">
+        <div className="flex flex-col md:flex-row gap-2 md:gap-[2rem] mt-auto items-baseline">
           <p className="text-[2rem] font-semibold text-accent-400">
             ${totalPrice}
           </p>
