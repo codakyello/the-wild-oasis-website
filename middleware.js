@@ -5,14 +5,13 @@ import { authorize } from "./app/_lib/data-service";
 export async function middleware(request) {
   const session = await auth();
   const token = session?.token;
-  console.log(session);
+
   const isAuthorised = await authorize(token);
   console.log("User is authorised", isAuthorised);
 
   const isLoginPage = request.nextUrl.pathname === "/login";
   const isSignUpPage = request.nextUrl.pathname === "/signup";
-  const isAccountPage = request.nextUrl.pathname === "/account";
-
+  const isAccountPage = request.nextUrl.pathname.startsWith("/account");
   // If the user is authenticated and trying to access the /account page, allow access
   if (isAuthorised && isAccountPage) {
     return NextResponse.next();
@@ -41,5 +40,5 @@ export async function middleware(request) {
 
 // Export config for the middleware
 export const config = {
-  matcher: ["/account", "/login", "/signup"], // Apply middleware to relevant routes
+  matcher: ["/account/:path*", "/login", "/signup"], // Apply middleware to relevant routes
 };
