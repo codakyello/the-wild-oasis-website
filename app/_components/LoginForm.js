@@ -17,13 +17,13 @@ function LoginForm() {
     if (res?.status !== "error") {
       router.push("/account");
     } else {
-      toast.error("Fetch failed" || res.message);
+      toast.error("Incorrect email || password");
     }
     setLoading(false);
   };
 
   return (
-    <div className="scale-[1.01] bg-primary-900 py-8 px-12">
+    <div className="scale-[1.01] bg-primary-900 py-[3.2rem] px-[4.8rem]">
       <form
         onSubmit={(e) => {
           e.preventDefault();
