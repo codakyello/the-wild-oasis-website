@@ -17,7 +17,7 @@ function LoginForm() {
     if (res?.status !== "error") {
       router.push("/account");
     } else {
-      toast.error("Incorrect email || password");
+      toast.error("Incorrect email or password");
     }
     setLoading(false);
   };
