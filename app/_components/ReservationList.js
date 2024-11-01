@@ -22,7 +22,7 @@ function ReservationList({ bookings }) {
         <ReservationCard
           onDelete={handleDelete}
           booking={booking}
-          key={booking._id}
+          key={booking.bookingId}
         />
       ))}
     </ul>
