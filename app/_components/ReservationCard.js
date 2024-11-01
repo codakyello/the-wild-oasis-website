@@ -11,8 +11,7 @@ export const formatDistanceFromNow = (dateStr) =>
 
 function ReservationCard({ booking, onDelete }) {
   const {
-    _id: bookingId,
-    guestId,
+    bookingId,
     startDate,
     endDate,
     numNights,
