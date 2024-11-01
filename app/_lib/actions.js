@@ -93,7 +93,7 @@ export async function updateBookingAction(formData) {
 
     const guestBookings = await getBookings();
 
-    const guestBookingsIds = guestBookings.map((booking) => booking._id);
+    const guestBookingsIds = guestBookings.map((booking) => booking.bookingId);
 
     if (!guestBookingsIds.includes(bookingId))
       throw new Error("You are not allowed to update this booking");
@@ -140,7 +140,7 @@ export async function deleteBookingAction(bookingId) {
   try {
     const guestBookings = await getBookings();
 
-    const guestBookingsIds = guestBookings.map((booking) => booking._id);
+    const guestBookingsIds = guestBookings.map((booking) => booking.bookingId);
 
     if (!guestBookingsIds.includes(bookingId))
       throw new Error("You are not allowed to delete this booking");
