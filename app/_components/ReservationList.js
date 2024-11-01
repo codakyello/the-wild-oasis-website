@@ -8,7 +8,7 @@ function ReservationList({ bookings }) {
   const [optimisticBookings, optimisticDelete] = useOptimistic(
     bookings,
     (curBookings, bookingId) => {
-      return curBookings.filter((booking) => booking._id !== bookingId);
+      return curBookings.filter((booking) => booking.bookingId !== bookingId);
     }
   );
 
